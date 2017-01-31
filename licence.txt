@@ -1,0 +1,32 @@
+/************************************************************************************
+ * Licence
+ * -------
+ * 
+ * J'ai écrit ce bout de code pour mon propre usage. Faites-en ce que vous voulez,
+ * ça m'est égal, à condition que ce soit pour un bon usage.
+ * S'il vous est utile, offrez-moi un verre quand l'occasion s'en présentera.
+ * 
+ * 
+ * 
+ * Contact
+ * -------
+ * 
+ * A. de la Pinsonnais (code[@]pinsonnais.org) - http://www.pinsonnais.org
+ * 
+ * 
+ * 
+ * Décharge de responsabilité
+ * --------------------------
+ * 
+ * Ce programme peut accidentellement détruire des données sur votre ordinateur, vous 
+ * électrocuter, faire exploser votre souris, vous faire perdre 50 millions de d'euros,
+ * mettre le feu à votre maison, provoquer la mort de toute votre famille et de vos
+ * proches, transformer le reste de l'humanité en zombies, provoquer le retour de Sauron,
+ * damner votre âme, causer l'extinction de l'espèce humaine ou la ré-élection de François
+ * Hollande à la présidence de la France.
+ * 
+ * JE NE PEUX EN AUCUN CAS ETRE TENU RESPONSABLE DE CES HORRIBLES CATASTROPHES ou de
+ * toute autre conséquences de l'utilisation de ce logiciel, ni du temps que vous venez
+ * de perdre en lisant cet avertissement idiot.
+ * 
+ ************************************************************************************/

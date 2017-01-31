@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+<!--
+/* Copyleft 2015 Amaury de la Pinsonnais. 
+ * This software may burn your house and kill your family.
+ * Use at your own risk.
+ */
+-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Je télécharge mon livre Gallica - II (JS style)</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery.contextMenu.css" type="text/css" />
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" type="text/css" />
+	
+	<link rel="stylesheet" href="css/gallicajs.css">
+</head>
+<body role="document">
+	<div role="main" class="container theme-showcase">
+
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h3>Gallica Downloader V3 <span></span></h3>
+			<p></p>
+		</div>
+
+		<div id="formulaire">
+			<div class="page-header">
+				<h1>Etape 1</h1>
+			</div>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="info-identifiant" class="col-sm-2 control-label col-sm-offset-1">Identifiant</label>
+					<div class="col-sm-3">
+						<input id="info-identifiant" name="info-identifiant" class="form-control" value="btv1b10721147q" type="text" />
+					</div>
+					<div class="col-sm-2 col-sm-offset-2">
+						<input id="info-submit" class="info-submit" type="button" value="Valider" />
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div id="formulaire-avance">
+			<div class="page-header">
+				<h1>Téléchargement avancé</h1>
+			</div>
+			
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="images-per-row" class="col-sm-2 control-label col-sm-offset-1">Images par ligne</label>
+					<div class="col-sm-2" id="images-per-row" name="images-per-row" >
+						<select class="form-control">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6" selected>6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<label for="suffixe" class="col-sm-1 control-label col-sm-offset-1">Suffixe</label>
+					<div class="col-sm-1">
+						<input id="suffixe" name="suffixe" class="form-control" value="" type="text" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-page" class="col-sm-2 control-label col-sm-offset-1">Première page</label>
+					<div class="col-sm-2">
+						<input id="first-page" name="first-page" class="form-control" value="1" type="text" />
+					</div>
+					<label for="first-page" class="col-sm-2 control-label">Dernière page</label>
+					<div class="col-sm-2">
+						<input id="last-page" name="last-page" class="form-control" value="auto" type="text" />
+					</div>
+				</div>
+				<fieldset>
+					<legend>Source</legend>
+					<div class="form-group">
+						<label for="x" class="col-sm-2 control-label col-sm-offset-1">X</label>
+						<div class="col-sm-2">
+							<input id="x" name="x" class="form-control" value="0" type="text" />
+						</div>
+						<label for="y" class="col-sm-2 control-label">Y</label>
+						<div class="col-sm-2">
+							<input id="y" name="y" class="form-control" value="0" type="text" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="width" class="col-sm-2 control-label col-sm-offset-1">Largeur</label>
+						<div class="col-sm-2">
+							<input id="width" name="width" class="form-control" value="0" type="text" />
+						</div>
+						<label for="height" class="col-sm-2 control-label">Hauteur</label>
+						<div class="col-sm-2">
+							<input id="height" name="height" class="form-control" value="0" type="text" />
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Destination</legend>
+					<div class="form-group">
+						<label for="maxWidth" class="col-sm-2 control-label col-sm-offset-1">Max width</label>
+						<div class="col-sm-2">
+							<input id="maxWidth" name="maxWidth" class="form-control" value="2600" type="text" />
+						</div>
+						<label for="maxHeight" class="col-sm-2 control-label">Max height</label>
+						<div class="col-sm-2">
+							<input id="maxHeight" name="maxHeight" class="form-control" value="2000" type="text" />
+						</div>
+					</div>
+				</fieldset>
+				<div class="form-group">
+					<div class="col-sm-2 col-sm-offset-8">
+						<input id="advancedSubmit" class="info-submit" type="button" value="Valider" />
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div id="temporary-messages" class="col-sm-12"></div>
+		<div id="messages" class="col-sm-12"></div>
+
+
+		<div id="resultats">
+			<div class="page-header">
+				<h1>Résultats</h1>
+			</div>
+			<div id="images"></div>
+		</div>
+    </div>
+	
+	
+	<footer class="footer">
+	<div class="container">
+	<p class="col-sm-2"></p>
+	<p class="col-sm-4">Gallica Downloader v3.00 (Melaine).</p>
+	<p class="col-sm-4">&copy; 2016 Amaury. <a href="licence.txt" target="_blank">Licence</a>.</p>
+	<p class="col-sm-2"></p>
+	</div>
+	</footer>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <!-- Include all Bootstrap compiled plugins (below), or include individual files as needed -->
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	<!-- Menu contextuel -->
+	<script src="js/jquery.ui.position.js" type="text/javascript"></script>
+    <script src="js/jquery.contextMenu.js" type="text/javascript"></script>
+	<!-- Script principal -->
+	<script src="js/gallicajs.js" type="text/javascript"></script>
+</body>
+</html>
+

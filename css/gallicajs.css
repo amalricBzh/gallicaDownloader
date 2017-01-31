@@ -1,0 +1,19 @@
+.jumbotron { padding-top : 20px ;}
+
+#resultats,
+#formulaire-avance {
+	display: none;
+}
+
+div#resultats div#images img {
+	margin : 1px;
+}
+
+
+.footer {
+	color : white;
+    background-color: black;;
+    margin-top: 2em;
+    height: 30px;
+    width: 100%;
+}
