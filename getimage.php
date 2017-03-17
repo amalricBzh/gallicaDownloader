@@ -108,7 +108,7 @@ class GallicaDownloader
 
 		// Here the code to generate imageURL
 		// http://gallica.bnf.fr/iiif/ark:/12148/btv1b10500687r/f52/full/full/0/native.jpg
-		$imageURL = "http://gallica.bnf.fr/iiif/ark:/12148/$resourceId/f$page/$region/$size/0/native.jpg";
+		$imageURL = "http://gallica.bnf.fr/iiif/ark:/12148/$resourceId/f$page/$region/$size/$rotation/$quality.$format";
 
 		$tmp = $this->downloadImage( $imageURL, $resourceName, $page);
 
