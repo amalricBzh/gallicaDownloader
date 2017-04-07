@@ -1,0 +1,6 @@
+data/logs/*
+data/temp/*
+data/config.json
+.idea
+vendor/*
+composer.lock
