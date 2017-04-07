@@ -1,0 +1,35 @@
+<?php include __DIR__ .'/../partials/header.phtml'; ?>
+<div class="container">
+    <h1>Liste des projets</h1>
+    <?php 
+    if (count($projets) === 0) {
+        echo '<p class="bg-warning">Pas de projets en cours...</p>' ;
+    } else {
+    ?>
+        <table id="projetsTable">
+        <thead>
+            <tr>
+                <th>Identifiant</th><th>Auteur</th><th>Titre</th><th>Nb vues</th><th>Etat</th><th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach($projets as $projet): ?>
+            <tr>
+                <td><?= $projet['id'] ?></td>
+                <td><div><?= $projet['author'] ?></div></td>
+                <td><div><?= $projet['title'] ?></div></td>
+                <td><?= $projet['nbVues'] ?></td>
+                <td><?= $projet['nbDownloaded'] ?>/<?= $projet['nbVues'] ?></td>
+                <td>
+                    <a href="/projet/nouveau?id=<?= $projet['id'] ?>" class="action"><i class="fa fa-refresh fa-lg fa-spin-hover"></i></a>
+                    <a href="/download?id=<?= $projet['id'] ?>" class="action"><i class="fa fa-download fa-lg"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+        </table>
+        
+    <?php } ?>
+   
+</div>
+<?php include __DIR__ . '/../partials/footer.phtml'; ?>

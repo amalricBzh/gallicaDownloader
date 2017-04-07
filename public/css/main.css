@@ -1,0 +1,87 @@
+h1 {
+  font-size: 28px;
+  margin-bottom:20px;
+}
+
+input {
+  box-shadow: 1px 1px 1px 0px rgba(200,200,200,1);
+}
+
+:required {
+   box-shadow: 1px 1px 2px 0px rgba(225,70,50,1);
+}
+
+#resultats,
+#formulaire-avance {
+	display: none;
+}
+
+div#resultats div#images img {
+	margin : 1px;
+}
+
+.fa-spin-hover:hover {
+   animation: fa-spin 2s infinite linear;
+}
+
+p.bg-danger,
+p.bg-warning,
+p.bg-success {
+  padding: 10px;
+}
+
+#projetsTable_wrapper {
+  width: 90%;
+  margin: 0 auto 10px auto;
+}
+
+th, td {
+  padding: 2px 5px;
+  font-size : 12px;
+}
+.dataTables_paginate {
+  font-size: 10px;
+}
+
+a.action {
+  margin: 0 5px;
+}
+
+header {
+  background-color: rgb(220,220,250);
+  width: 100% ;
+  border-radius: 20px;
+  margin: 10px 0;
+  padding: 20px;
+}
+header h1 {
+  font-size: 24px;
+  margin-top:0;
+  color: rgb(0,0,140);
+}
+
+header ul {
+  display: flex;
+  list-style-type: none;
+}
+header ul li {
+  margin-right: 40px;
+}
+
+header a {
+  color: rgb(150,150,250);
+  transition: color 1s ease;
+}
+
+header a:hover {
+  color: rgb(250,0,0);
+}
+
+.footer {
+	color : white;
+  background-color: black;
+  margin-top: 30px;
+  height: 30px;
+  width: 100%;
+  padding:5px;
+}

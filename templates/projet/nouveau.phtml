@@ -1,0 +1,31 @@
+<?php
+    include __DIR__ .'/../partials/header.phtml';
+    if (!isset ($errors)) { $errors = []; }
+    if (!isset ($id)) { $id = ''; }
+?>
+<div class="container">
+    <h1>Création d'un nouveau projet</h1>
+    <?php
+    if (count($errors) >0):
+        foreach($errors as $error) :
+    ?>
+        <p class="bg-danger"><?= $error ?></p>
+    <?php
+        endforeach;
+    endif;
+    ?>
+    
+    <form class="form-horizontal" method="POST">
+        <div class="form-group">
+            <label for="identifiant" class="col-sm-2 control-label col-sm-offset-1">Identifiant</label>
+            <div class="col-sm-5">
+                <input id="identifiant" name="identifiant" class="form-control"
+                    placeholder="(ou URL de la ressource)" type="text" value="<?= $id ?>" />
+            </div>
+            <div class="col-sm-2 col-sm-offset-1">
+                <button type="submit" class="btn btn-success"><i class="fa fa-cogs fa-lg"></i> Valider</button>
+            </div>
+        </div>
+    </form>
+</div>
+<?php include __DIR__ . '/../partials/footer.phtml'; ?>

@@ -1,0 +1,116 @@
+<?php
+    include __DIR__ .'/../partials/header.phtml';
+    if (!isset ($id)) { $id = '...'; }
+?>
+<div class="container">
+    <h1>Options pour <?= $id ?></h1>
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Statistiques (<?= $nbVues ?> images)</legend>
+            <div class="form-group">
+                <label for="x" class="col-sm-2 control-label col-sm-offset-1">Largeur min/max</label>
+                <div class="col-sm-2">
+                    <?= $statsW['min'] ?>/<?= $statsW['max'] ?>
+                </div>
+                <label for="y" class="col-sm-2 control-label">Hauteur min/max</label>
+                <div class="col-sm-2">
+                    <?= $statsH['min'] ?>/<?= $statsH['max'] ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="x" class="col-sm-2 control-label col-sm-offset-1">Largeur moyenne (X)</label>
+                <div class="col-sm-2">
+                    <?= $statsW['mean'] ?>
+                </div>
+                <label for="y" class="col-sm-2 control-label">Hauteur moyenne (Y)</label>
+                <div class="col-sm-2">
+                    <?= $statsH['mean'] ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="width" class="col-sm-2 control-label col-sm-offset-1">Ecart X moyen</label>
+                <div class="col-sm-2">
+                    <?= $statsW['ecart'] ?>
+                </div>
+                <label for="height" class="col-sm-2 control-label">Ecart Y moyen</label>
+                <div class="col-sm-2">
+                    <?= $statsH['ecart'] ?>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
+    <form class="form-horizontal" method="POST">
+        <input id="identifiant" name="identifiant" value="<?= $id ?>" type="hidden" />
+        <fieldset>
+            <legend>Options</legend>
+            <div class="form-group">
+                <label for="images-per-row" class="col-sm-2 control-label col-sm-offset-1">Images par ligne</label>
+                <div class="col-sm-2" id="images-per-row" name="images-per-row" >
+                    <select class="form-control" name="options[nbImagesLigne]">
+                    <?php for ($i=1; $i <= 12 ; $i++):
+                        $selected = ($options['nbImagesLigne'] === $i) ? ' selected':'' ?>
+                        <option value="<?= $i ?>"<?= $selected ?>><?= $i ?></option>
+                    <?php endfor; ?>
+                    </select>
+                </div>
+                <label for="suffixe" class="col-sm-1 control-label col-sm-offset-1">Suffixe</label>
+                <div class="col-sm-2">
+                    <input id="suffixe" name="suffixe" class="form-control" value="<?= $options['suffixe'] ?>" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="first-page" class="col-sm-2 control-label col-sm-offset-1">Première page</label>
+                <div class="col-sm-2">
+                    <input id="first-page" name="options[premierePage]" class="form-control" value="<?= $options['premierePage'] ?>" type="number" required />
+                </div>
+                <label for="first-page" class="col-sm-2 control-label">Dernière page</label>
+                <div class="col-sm-2">
+                    <input id="last-page" name="options[dernierePage]" class="form-control" value="<?= $options['dernierePage'] ?>" type="number" required />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Source</legend>
+            <div class="form-group">
+                <label for="x" class="col-sm-2 control-label col-sm-offset-1">X</label>
+                <div class="col-sm-2">
+                    <input id="x" name="source[x]" class="form-control" value="<?= $source['x'] ?>" type="number" required />
+                </div>
+                <label for="y" class="col-sm-2 control-label">Y</label>
+                <div class="col-sm-2">
+                    <input id="y" name="source[y]" class="form-control" value="<?= $source['y'] ?>" type="number" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="width" class="col-sm-2 control-label col-sm-offset-1">Largeur</label>
+                <div class="col-sm-2">
+                    <input id="width" name="source[w]" class="form-control" value="<?= $source['w'] ?>" type="number" required />
+                </div>
+                <label for="height" class="col-sm-2 control-label">Hauteur</label>
+                <div class="col-sm-2">
+                    <input id="height" name="source[h]" class="form-control" value="<?= $source['h'] ?>" type="number" required />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Destination</legend>
+            <div class="form-group">
+                <label for="maxWidth" class="col-sm-2 control-label col-sm-offset-1">Max width</label>
+                <div class="col-sm-2">
+                    <input id="maxWidth" name="destination[maxW]" class="form-control" value="<?= $destination['maxW'] ?>" type="number" required />
+                </div>
+                <label for="maxHeight" class="col-sm-2 control-label">Max height</label>
+                <div class="col-sm-2">
+                    <input id="maxHeight" name="destination[maxH]" class="form-control" value="<?= $destination['maxH'] ?>" type="number" required />
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-sm-2 col-sm-offset-8">
+                <button type="submit" class="btn btn-success"><i class="fa fa-check fa-lg"></i> Valider</button>
+            </div>
+        </div>
+    </form>
+</div>
+<?php include __DIR__ . '/../partials/footer.phtml'; ?>
