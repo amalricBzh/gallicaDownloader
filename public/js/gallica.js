@@ -51,7 +51,7 @@ function downloadPageAjax(documentId){
 
 $(document).ready(function(){
   //console.info("Initialising GallicaDownloader...");
-  $('#projetsTable').DataTable({
+  $("#projetsTable").DataTable({
     "columns" : [
     {"width" : "100px", "searchable" : false, "orderable" : false},
     {"width" : "180px"},
