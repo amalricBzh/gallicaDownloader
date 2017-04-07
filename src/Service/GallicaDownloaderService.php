@@ -80,8 +80,6 @@ class GallicaDownloaderService
                 'height' => $image->height,
                 'page' => $page
             ];
-            
-            $nbNumber++;
         }
         $meanW = round($sumW / count($images));
         $meanH = round($sumH / count($images));
@@ -183,6 +181,12 @@ class GallicaDownloaderService
 		$imageURL = "http://gallica.bnf.fr/iiif/ark:/12148/$resourceId/f$page/$region/$size/$rotation/$quality.$format";
 
 		$result = $this->downloadImage( $imageURL, $resourceId, $page, $suffixe);
+		if (isset($result['error'])) {
+			return [
+				'result'    => 'error',
+				'message' => $result['error'],
+			];
+		}
 
 		return [
 			'result'    => 'success',
@@ -197,18 +201,16 @@ class GallicaDownloaderService
 
 		$image = @file_get_contents($imageUrl);
 		if ($image === false) {
-			sendEnd('Fin du livre atteinte.');
+			return ['error' => 'Erreur en lisant ' . $imageUrl ];
 		}
 
+		// Ecriture de l'image
 		$filename = sprintf("%03d%s.jpg", $pageNumber, $suffixe) ;
-		$shortFilename = $directory. '/' . $this->repertoireImages. '/' .$filename;
-		$shortThFilename = $directory. '/' . $this->repertoireVignettes. '/' .$filename;
 		$fullFilename = $directory. '/' . $this->repertoireImages. '/' .$filename;
-		$fullThFilename = $directory. '/' . $this->repertoireVignettes. '/' .$filename;
-
 		file_put_contents($fullFilename, $image);
 
 		// Création d'une vignette
+		$fullThFilename = $directory. '/' . $this->repertoireVignettes. '/' .$filename;
 		$this->createThumbnail($fullFilename, $fullThFilename);
 
 		return [

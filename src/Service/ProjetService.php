@@ -16,21 +16,19 @@ class ProjetService
             'nbProjects' => 0,
             'projects' => []
         ];
-        // Le fichier existe-t-il ? Si oui, on le charge, sinon, on écrit le fichier par défaut
-        if (file_exists($this->config['projectsConfig'])){
-            $this->projects = $this->read();
-        } else {
-            $this->write();
+        // Le fichier existe-t-il ? Si non, on écrit le fichier par défaut
+        if (!file_exists($this->config['projectsConfig'])){
+	        $this->write();
         }
+	    $this->projects = $this->read();
     }
     
-    public function get($id = null)
+    public function get($projetId = null)
     {
-        
         // Si on a demandé un projet spécifique
-        if ($id !== null) {
-            if (isset($this->projects['projects'][$id])){
-                return $this->projects['projects'][$id] ;
+        if ($projetId !== null) {
+            if (isset($this->projects['projects'][$projetId])){
+                return $this->projects['projects'][$projetId] ;
             }
             // On a demandé un projet spécifique mais qui n'a pas été trouvé
             return null ;

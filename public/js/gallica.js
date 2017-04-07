@@ -77,7 +77,7 @@ $(document).ready(function(){
   
   // S'il y a une variable documentId, on est sur la page de téléchargement
   
-  if (typeof documentId !== 'undefined'){
+  if (typeof documentId !== "undefined"){
     downloadPageAjax();
   }
 });

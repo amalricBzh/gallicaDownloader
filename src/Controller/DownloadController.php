@@ -13,32 +13,31 @@ class DownloadController
     protected $projets ;
     protected $flash ;
     protected $router ;
-    // GallicaDownloader
-    protected $gd ;
+    protected $gallicaDownloader ;
 
-    public function __construct($c)
+    public function __construct($config)
     {
-        $this->projets = $c['projets'];
-        $this->logger = $c['logger'];
-        $this->renderer = $c['renderer'];
-        $this->flash = $c['flash'];
-        $this->gd = $c['gallicaDownloader'] ;
-        $this->router = $c['router'];
+        $this->projets = $config['projets'];
+        $this->logger = $config['logger'];
+        $this->renderer = $config['renderer'];
+        $this->flash = $config['flash'];
+        $this->gallicaDownloader = $config['gallicaDownloader'] ;
+        $this->router = $config['router'];
     }
     
-    public function index(Request $request, Response $response, $args)
+    public function index(Request $request, Response $response)
     {
-        $id = '';
+        $projetId = '';
         // Si id dans la query, on le récupère
-        $qp = $request->getQueryParams() ;
-        if (isset($qp['id'])) {
-            $id = $qp['id'];
+        $params = $request->getQueryParams() ;
+        if (isset($params['id'])) {
+	        $projetId = $params['id'];
         }
-        $projet = $this->projets->get($id);
+        $projet = $this->projets->get($projetId);
         
         if ($projet === null) {
-            $this->flash->addMessage('error', "Le projet $id n'a pas été trouvé.");
-            $this->flash->addMessage('id', $id);
+            $this->flash->addMessage('error', "Le projet $projetId n'a pas été trouvé.");
+            $this->flash->addMessage('id', $projetId);
             return $response->withStatus(302)->withHeader('Location', '/');
         }
         
@@ -50,28 +49,28 @@ class DownloadController
         return $res;
     }
     
-    public function getNext(Request $request, Response $response, $args)
+    public function getNext(Request $request, Response $response)
     {
         $params = $request->getParsedBody();
         if (!isset ($params['id'])) {
             return $this->jsonResponseError($response, "Pas d'identifiant trouvé dans la requête.");
         }
         // On charge le projet
-        $id = $params['id'] ;
-        $projet = $this->projets->get($id);
+	    $projetId = $params['id'] ;
+        $projet = $this->projets->get($projetId);
         if ($projet === null) {
-            return $this->jsonResponseError($response, "Aucun projet trouvé avec l'identifiant $id.");
+            return $this->jsonResponseError($response, "Aucun projet trouvé avec l'identifiant $projetId.");
         }
         // Get first todo image
         $tmpArray = array_reverse($projet['todo']);
         $image = array_pop($tmpArray);
         unset($tmpArray);
         $options = [
-            'id' => $id,
+            'id' => $projetId,
             'suffixe' => $projet['options']['suffixe']
         ];
         // Téléchargement de l'image
-        $result = $this->gd->download($image, $projet['source'], $projet['destination'], $options);
+        $result = $this->gallicaDownloader->download($image, $projet['source'], $projet['destination'], $options);
         
         if ($result['result'] === 'success'){
             // Mise à jour de l'image
