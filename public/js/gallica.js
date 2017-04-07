@@ -1,17 +1,17 @@
 var CfgTimeoutTries = 3 ;
 var CfgTimeoutOccured = 0 ;
 
-function waitAndDownloadPage(duration) {
-	duration = typeof duration !== 'undefined' ? duration : 0;
+function waitAndDownloadPage(duration, documentId) {
+	duration = typeof duration !== "undefined" ? duration : 0;
 	// On attend entre 2 et 5 secondes, plus éventuellement un autre délai passé en paramètre
 	var waitTime = duration + 2000 + Math.floor((Math.random() * 3000)) ;
 	setTimeout(
-		function(){downloadPageAjax();},
+		function(){downloadPageAjax(documentId);},
 		waitTime
 	);
 }
 
-function downloadPageAjax(){
+function downloadPageAjax(documentId){
 	//console.info("Downloading...");
 	// On demande le téléchargement d'une image
 	$.ajax({
@@ -26,7 +26,7 @@ function downloadPageAjax(){
 			$("#nbDownloaded").html(data.nbDownloaded);
 			$("#nbTodo").html(data.nbTodo);
 			$("#resultMessage").html(data.message);
-			waitAndDownloadPage(0);
+			waitAndDownloadPage(0, documentId);
 		},
 		fail : function(data) {
 			alert( "Une erreur est survenue (backend)." );
@@ -41,7 +41,7 @@ function downloadPageAjax(){
 					return ;
 				}
 				// On attend 30 secondes et on repart
-				waitAndDownloadPage(page, 30000);
+				waitAndDownloadPage(30000, documentId);
 			}
 		}
 	});
@@ -78,6 +78,6 @@ $(document).ready(function(){
   // S'il y a une variable documentId, on est sur la page de téléchargement
   
   if (typeof documentId !== "undefined"){
-    downloadPageAjax();
+    downloadPageAjax(documentId);
   }
 });

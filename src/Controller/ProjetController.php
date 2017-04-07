@@ -28,10 +28,6 @@ class ProjetController
     
     public function index(Request $request, Response $response)
     {
-        if (file_exists($this->config['projectsConfig'])) {
-            $projects = file_get_contents($this->config['projectsConfig']);
-        }
-
         // render view
         $res = $this->renderer->render($response, 'projet/index.phtml', [
             'projets' => $this->projets->get(),
