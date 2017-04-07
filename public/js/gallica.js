@@ -35,7 +35,7 @@ function downloadPageAjax(){
 			//console.info('Fail', data, status, errorThrown);
 			if (data.responseText.search("Maximum execution time") > 0) {
 				// Time out. On recommence.
-				CfgTimeoutOccured = CFG_Timeout_occured + 1 ;
+				CfgTimeoutOccured = CfgTimeoutOccured + 1 ;
 				if (CfgTimeoutOccured >= CfgTimeoutTries) {
 					alert("Erreur de timeout ("+ CfgTimeoutTries+" tentatives).");
 					return ;
@@ -50,7 +50,7 @@ function downloadPageAjax(){
 
 
 $(document).ready(function(){
-  console.info("Initialising GallicaDownloader...");
+  //console.info("Initialising GallicaDownloader...");
   $('#projetsTable').DataTable({
     "columns" : [
     {"width" : "100px", "searchable" : false, "orderable" : false},
