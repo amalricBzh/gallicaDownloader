@@ -28,6 +28,12 @@ Remplacez <PATH> par le chemin sur votre disque
 
     127.0.0.1         gd.localhost
     
+**Certificat cacert.pem**
+
+Allez ici : https://curl.haxx.se/ca/cacert.pem et copiez le contenu du fichier sur votre disque (ex : C:\xampp\cacert.pem)
+Editez votre php.ini et ajoutez ou modifiez la ligne suivante :
+`curl.cainfo = "[cheminVersLeFichier]\cacert.pem"`
+    
 ## Amélioration et fonctionnalités à implémenter
  - Envoyer les ficheirs téléchargés sur Google Drive
  
