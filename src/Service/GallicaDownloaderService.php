@@ -199,7 +199,7 @@ class GallicaDownloaderService
 	{
 		$directory = $this->repertoireDownload . '/'.$resourceId ;
 
-		$image = @file_get_contents($imageUrl);
+		$image = file_get_contents($imageUrl);
 		if ($image === false) {
 			return ['error' => 'Erreur en lisant ' . $imageUrl ];
 		}

@@ -6,12 +6,12 @@ return [
         'addContentLengthHeader' => false,  // Fait par le serveur web
         
         // Monolog
-        'logger' => [
+        'errorLogger' => [
             'name' => 'error',
             'path' => __DIR__ . '/../data/logs/error.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-        'logger' => [
+        'mainLogger' => [
             'name' => 'main',
             'path' => __DIR__ . '/../data/logs/main.log',
             'level' => \Monolog\Logger::DEBUG,

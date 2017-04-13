@@ -7,7 +7,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 class ProjetController
 {
-    protected $logger ;
+    protected $mainLogger ;
+    protected $errorLogger ;
     protected $renderer ;
     protected $config ;
     protected $projets ;
@@ -19,7 +20,8 @@ class ProjetController
     public function __construct($config)
     {
         $this->projets = $config['projets'];
-        $this->logger = $config['logger'];
+        $this->mainLogger = $config['mainLogger'];
+        $this->errorLogger = $config['errorLogger'];
         $this->renderer = $config['renderer'];
         $this->flash = $config['flash'];
         $this->gallicaDownloader = $config['gallicaDownloader'] ;

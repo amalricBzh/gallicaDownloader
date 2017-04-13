@@ -5,3 +5,4 @@ data/auth/client_id.json
 .idea
 vendor/*
 composer.lock
+

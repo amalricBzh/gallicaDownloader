@@ -49,7 +49,10 @@ class ProjetService
     
     public function write()
     {
-        @file_put_contents($this->config['projectsConfig'], json_encode($this->projects,  JSON_PRETTY_PRINT));
+	    if (!is_dir($this->config['projectsPath'])) {
+		    mkdir($this->config['projectsPath'], 0777, true);
+	    }
+        file_put_contents($this->config['projectsConfig'], json_encode($this->projects,  JSON_PRETTY_PRINT));
     }
     
     public function read()

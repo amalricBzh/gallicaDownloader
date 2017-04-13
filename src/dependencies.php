@@ -3,13 +3,21 @@
 $container = $app->getContainer();
 
 // Logger : Monolog
-$container['logger'] = function (\Slim\Container $c) {
-    $config = $c->get('settings')['logger'] ;
+$container['mainLogger'] = function (\Slim\Container $c) {
+    $config = $c->get('settings')['mainLogger'] ;
     $logger = new \Monolog\Logger($config['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());   // Créée un id unique pour l'instance du Logger
     $fileHandler = new \Monolog\Handler\StreamHandler($config['path'], $config['level']);
     $logger->pushHandler($fileHandler);
     return $logger;
+};
+$container['errorLogger'] = function (\Slim\Container $c) {
+	$config = $c->get('settings')['errorLogger'] ;
+	$logger = new \Monolog\Logger($config['name']);
+	$logger->pushProcessor(new Monolog\Processor\UidProcessor());   // Créée un id unique pour l'instance du Logger
+	$fileHandler = new \Monolog\Handler\StreamHandler($config['path'], $config['level']);
+	$logger->pushHandler($fileHandler);
+	return $logger;
 };
 
 // Flash messages
@@ -18,14 +26,14 @@ $container['flash'] = function () {
 };
 
 // Vues
-$container['renderer'] = function(\Slim\Container $c) {
-    $config = $c->get('settings')['renderer'] ;
+$container['renderer'] = function(\Slim\Container $container) {
+    $config = $container->get('settings')['renderer'] ;
     $renderer = new \Slim\Views\PhpRenderer($config['templatePath']);
     return $renderer;
 };
 
 // Csrf
-$container['csrf'] = function (\Slim\Container $c) {
+$container['csrf'] = function (/*\Slim\Container $container*/) {
     $guard = new \Slim\Csrf\Guard();
     // callback en cas d'erreur
     $guard->setFailureCallable(function ($request, $response, $next) {
@@ -38,18 +46,15 @@ $container['csrf'] = function (\Slim\Container $c) {
 
 
 // Projet service
-$container['projets'] = function(\Slim\Container $c) {
-    return new \Service\ProjetService($c['settings']);
+$container['projets'] = function(\Slim\Container $container) {
+    return new \Service\ProjetService($container['settings']);
 };
 
 // Gallica Downloader service
-$container['gallicaDownloader'] = function(\Slim\Container $c) {
-    return new \Service\GallicaDownloaderService($c['settings']);
+$container['gallicaDownloader'] = function(\Slim\Container $container) {
+    return new \Service\GallicaDownloaderService($container['settings']);
 };
-// 
-$container[\Controller\ProjetController::class] = function(\Slim\Container $c) {
-    return new \Controller\ProjetController($c);
-};
+
 
 
 
