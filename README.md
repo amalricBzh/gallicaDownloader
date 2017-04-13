@@ -39,7 +39,8 @@ Editez votre php.ini et ajoutez ou modifiez la ligne suivante :
 
 **Google oAuth**
 
-Il vous faudra une clef pour l'API Google (Suivez l'étape 1 de la page https://developers.google.com/drive/v3/web/quickstart/php) que vous mettrez dans `/data/auth/client_id.json` (et non `client_secret.json`).
+Il vous faudra une clef pour l'API Google (Suivez l'étape 1 de la page https://developers.google.com/drive/v3/web/quickstart/php) que vous mettrez dans `/data/auth/client_id.json` (et non `client_secret.json`, mais c'est configurable dans `src/config.php`).
+
     
 ## Amélioration et fonctionnalités à implémenter
 
