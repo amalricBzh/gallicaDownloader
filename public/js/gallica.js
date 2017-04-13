@@ -60,7 +60,7 @@ function downloadPageAjax(documentId){
 
 /************* Envoi Google Drive *******************/
 function uploadPageAjax(documentId, accessToken, parentFolderId){
-	console.info("Uploading...");
+	//console.info("Uploading...");
 	// On demande l'envoi d'une image
 	$.ajax({
 		url: "/googleDrive/next",
@@ -72,19 +72,19 @@ function uploadPageAjax(documentId, accessToken, parentFolderId){
 		},
 		dataType: "json",
 		success : function(data) {
-			console.log(data.message);
-      if (data.result !== 'error') {
-        $("#nbGoogleDrive").html(data.nbGoogleDrive);
-        $("#nbDownloaded").html(data.nbDownloaded);
-        $("#resultMessage").html(data.message);
-        waitAndUploadPage(0, documentId, accessToken, parentFolderId);
-      }
+		  //console.log(data.message);
+		  if (data.result !== "error") {
+			$("#nbGoogleDrive").html(data.nbGoogleDrive);
+			$("#nbDownloaded").html(data.nbDownloaded);
+			$("#resultMessage").html(data.message);
+			waitAndUploadPage(0, documentId, accessToken, parentFolderId);
+		  }
 		},
 		fail : function(data) {
 			alert( "Une erreur est survenue (backend)." );
 		},
 		error : function(data, status, errorThrown ) {
-			console.info('Fail', data, status, errorThrown);
+			//console.info('Fail', data, status, errorThrown);
 			if (data.responseText.search("Maximum execution time") > 0) {
 				// Time out. On recommence.
 				CfgTimeoutOccured = CfgTimeoutOccured + 1 ;

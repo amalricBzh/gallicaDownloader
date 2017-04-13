@@ -15,14 +15,14 @@ class GoogleDriveController
     protected $router ;
     protected $client ;
 
-    public function __construct($c)
+    public function __construct($config)
     {
-        $this->projets = $c['projets'];
-        $this->logger = $c['logger'];
-        $this->renderer = $c['renderer'];
-        $this->flash = $c['flash'];
-        $this->config = $c['settings'] ;
-        $this->router = $c['router'];
+        $this->projets = $config['projets'];
+        $this->logger = $config['logger'];
+        $this->renderer = $config['renderer'];
+        $this->flash = $config['flash'];
+        $this->config = $config['settings'] ;
+        $this->router = $config['router'];
         
         // Request auth
         $this->client = new \Google_Client();
@@ -33,7 +33,7 @@ class GoogleDriveController
         $this->client->setRedirectUri('http://' . 'localhost' . '/gallicaDownloader/googleDrive/oAuth');
     }
     
-    public function index(Request $request, Response $response, $args)
+    public function index(Request $request, Response $response)
     {
         $projetId = '';
         // Si id dans la query, on le récupère
@@ -50,7 +50,7 @@ class GoogleDriveController
         
     }
     
-    public function oAuth(Request $request, Response $response, $args)
+    public function oAuth(Request $request, Response $response)
     {
         // Si id dans la query, on le récupère
         $queryParams = $request->getQueryParams() ;
@@ -65,7 +65,7 @@ class GoogleDriveController
         return $response->withStatus(302)->withHeader('Location', 'http://gd.localhost/googleDrive/upload?token=' . serialize($accessToken));
     }
     
-    public function upload(Request $request, Response $response, $args)
+    public function upload(Request $request, Response $response)
     {
         // Get session Id et projet
         $session = new \RKA\Session();
