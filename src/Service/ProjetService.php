@@ -39,7 +39,9 @@ class ProjetService
     
     public function update($project)
     {
+        $project['nbTodo'] = count($project['todo']);
         $project['nbDownloaded'] = count($project['downloaded']);
+        $project['nbGoogleDrive'] = count($project['googleDrive']);
         $this->projects['projects'][$project['id']] = $project ;
         $this->projects['nbProjects'] = count($this->projects['projects']);
         $this->write();

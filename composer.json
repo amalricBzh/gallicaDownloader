@@ -4,6 +4,8 @@
         "monolog/monolog": "^1.22",
         "slim/php-view": "^2.2",
         "slim/csrf": "^0.8.1",
-        "slim/flash": "^0.2.0"
+        "slim/flash": "^0.2.0",
+        "google/apiclient": "^2.0",
+        "akrabat/rka-slim-session-middleware": "^2.0"
     }
 }
