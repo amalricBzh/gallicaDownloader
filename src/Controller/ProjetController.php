@@ -104,6 +104,7 @@ class ProjetController
             'maxH' => $resource['h']['mean'] -  $resource['h']['ecart'],
         ];
         $resource['downloaded'] = [];
+        $resource['googleDrive'] = [];
         
         // Mettre le nouveau projet dans la config
         $this->projets->update($resource);

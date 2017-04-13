@@ -70,7 +70,17 @@ class DownloadController
             'suffixe' => $projet['options']['suffixe']
         ];
         // Téléchargement de l'image
-        $result = $this->gallicaDownloader->download($image, $projet['source'], $projet['destination'], $options);
+        $destination = $projet['destination'];
+        // Si la hauteur ou la largeur de l'image diffère de 5 fois de la différence moyenne, on prend la taille réelle
+        // cela permet de ne pas altérer les pages spécifiques, ou les pages qui sont dans une autre orientation
+        if ($image['ecartW'] > (5 * $projet['w']['ecart']) || $image['ecartH'] > (5 * $projet['h']['ecart'])) {
+            $destination = [
+                'maxW' => $image['width'],
+                'maxH' => $image['height']
+            ];
+        }
+        
+        $result = $this->gallicaDownloader->download($image, $projet['source'], $destination, $options);
         
         if ($result['result'] === 'success'){
             // Mise à jour de l'image
@@ -88,8 +98,6 @@ class DownloadController
                 'filename' => $result['filename']
             ]);
         }
-        
-        var_dump($result);
     }
     
    

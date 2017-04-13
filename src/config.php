@@ -21,6 +21,11 @@ return [
         'renderer' => [
             'templatePath' => __DIR__ . '/../templates/'
         ],
+
+        // google Drive
+        'googleDrive' => [
+            'jsonSecret' => __DIR__ . '/../data/auth/client_id.json',
+        ],
         
         // Divers
         'configFile' => __DIR__ . '/../data/config.json',

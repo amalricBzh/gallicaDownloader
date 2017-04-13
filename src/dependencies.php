@@ -36,6 +36,7 @@ $container['csrf'] = function (\Slim\Container $c) {
     return $guard;
 };
 
+
 // Projet service
 $container['projets'] = function(\Slim\Container $c) {
     return new \Service\ProjetService($c['settings']);
@@ -45,10 +46,11 @@ $container['projets'] = function(\Slim\Container $c) {
 $container['gallicaDownloader'] = function(\Slim\Container $c) {
     return new \Service\GallicaDownloaderService($c['settings']);
 };
-
+// 
 $container[\Controller\ProjetController::class] = function(\Slim\Container $c) {
     return new \Controller\ProjetController($c);
 };
+
 
 
 
