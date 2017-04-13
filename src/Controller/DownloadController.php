@@ -7,7 +7,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 class DownloadController
 {
-    protected $logger ;
+	protected $mainLogger ;
+	protected $errorLogger ;
     protected $renderer ;
     protected $config ;
     protected $projets ;
@@ -18,7 +19,8 @@ class DownloadController
     public function __construct($config)
     {
         $this->projets = $config['projets'];
-        $this->logger = $config['logger'];
+	    $this->mainLogger = $config['mainLogger'];
+	    $this->errorLogger = $config['errorLogger'];
         $this->renderer = $config['renderer'];
         $this->flash = $config['flash'];
         $this->gallicaDownloader = $config['gallicaDownloader'] ;
@@ -73,12 +75,13 @@ class DownloadController
         $destination = $projet['destination'];
         // Si la hauteur ou la largeur de l'image diffère de 5 fois de la différence moyenne, on prend la taille réelle
         // cela permet de ne pas altérer les pages spécifiques, ou les pages qui sont dans une autre orientation
-        if ($image['ecartW'] > (5 * $projet['w']['ecart']) || $image['ecartH'] > (5 * $projet['h']['ecart'])) {
+	    // TODO : réactiver mais avec une protection à cause des vignettes, ou ne plus faire de vignettes...
+        /*if ($image['ecartW'] > (5 * $projet['w']['ecart']) || $image['ecartH'] > (5 * $projet['h']['ecart'])) {
             $destination = [
                 'maxW' => $image['width'],
                 'maxH' => $image['height']
             ];
-        }
+        }*/
         
         $result = $this->gallicaDownloader->download($image, $projet['source'], $destination, $options);
         
