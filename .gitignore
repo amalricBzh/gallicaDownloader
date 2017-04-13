@@ -1,6 +1,7 @@
 data/logs/*
 data/temp/*
 data/config.json
+data/auth/client_id.json
 .idea
 vendor/*
 composer.lock
