@@ -174,5 +174,30 @@ class ProjetController
         ]);
         return $res;
     }
+    
+    public function delete(Request $request, Response $response, $args)
+    {
+	    $projetId = $args['id'];
 
+        // render view
+        $res = $this->renderer->render($response, 'projet/delete.phtml', [
+            'messages' => $this->flash->getMessages(),
+            'projet' => $this->projets->get($projetId),
+            'id' => $projetId
+        ]);
+        return $res;
+    }
+    
+    public function deletePost(Request $request, Response $response, $args)
+    {
+	    $projetId = $args['id'];
+        
+        $this->projets->delete($projetId);
+        
+        $this->flash->addMessage('succes', "Le projet $projetId a été supprimé.");
+        // Back to home
+        $url = $this->router->pathFor('home');
+        return $response->withStatus(302)->withHeader('Location', $url);
+
+    }
 }
