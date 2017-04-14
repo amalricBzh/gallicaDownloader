@@ -27,6 +27,7 @@
                 <td><?= $projet['nbTodo'] ?> / <?= $projet['nbDownloaded'] ?> / <?= $projet['nbGoogleDrive'] ?></td>
                 <td>
                     <a href="/projet/nouveau?id=<?= $projet['id'] ?>" class="action" title="Réinitialiser le projet"><i class="fa fa-refresh fa-lg fa-spin-hover"></i></a>
+                    <a href="/projet/options?id=<?= $projet['id'] ?>" class="action" title="Modifier les options du projet"><i class="fa fa-cogs fa-lg fa-spin-hover"></i></a>
                     <a href="/download?id=<?= $projet['id'] ?>" class="action" title="Télécharger sur le serveur"><i class="fa fa-download fa-lg"></i></a>
                     <a href="/googleDrive?id=<?= $projet['id'] ?>" class="action" title="Envoyer sur Google Drive"><i class="fa fa-cloud-upload fa-lg"></i></a>
                 </td>
