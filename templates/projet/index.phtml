@@ -20,15 +20,15 @@
         <tbody>
         <?php foreach($projets as $projet): ?>
             <tr>
-                <td><?= $projet['id'] ?></td>
+                <td><a href="<?= $projet['url'] ?>" target="_blank"><?= $projet['id'] ?></a></td>
                 <td><div><?= $projet['author'] ?></div></td>
                 <td><div><?= $projet['title'] ?></div></td>
                 <td><?= $projet['nbVues'] ?></td>
                 <td><?= $projet['nbTodo'] ?> / <?= $projet['nbDownloaded'] ?> / <?= $projet['nbGoogleDrive'] ?></td>
                 <td>
-                    <a href="/projet/nouveau?id=<?= $projet['id'] ?>" class="action"><i class="fa fa-refresh fa-lg fa-spin-hover"></i></a>
-                    <a href="/download?id=<?= $projet['id'] ?>" class="action"><i class="fa fa-download fa-lg"></i></a>
-                    <a href="/googleDrive?id=<?= $projet['id'] ?>" class="action"><i class="fa fa-cloud-upload fa-lg"></i></a>
+                    <a href="/projet/nouveau?id=<?= $projet['id'] ?>" class="action" title="Réinitialiser le projet"><i class="fa fa-refresh fa-lg fa-spin-hover"></i></a>
+                    <a href="/download?id=<?= $projet['id'] ?>" class="action" title="Télécharger sur le serveur"><i class="fa fa-download fa-lg"></i></a>
+                    <a href="/googleDrive?id=<?= $projet['id'] ?>" class="action" title="Envoyer sur Google Drive"><i class="fa fa-cloud-upload fa-lg"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>
