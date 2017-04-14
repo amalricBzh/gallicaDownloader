@@ -21,40 +21,21 @@ class GallicaDownloaderService
         // Récupération du manifest.info sur le serveur Gallica
         // Ex : http://gallica.bnf.fr/iiif/ark:/12148/bpt6k5420939g/manifest.json
 		$infoUrl = sprintf("%s/%s/manifest.json", $this->baseUrl, $identifier);
-		$jsonInfo = @file_get_contents($infoUrl);
+		$jsonInfo = file_get_contents($infoUrl);
         
         // Check réponse
         if ($jsonInfo === false) {
-            return ['error' => "Gallica n'est pas accessible. Veuillez vérifier votre connexion (les proxies ne sont pas pris en compte)."] ;
+            return ['error' => "Gallica n'est pas accessible. Veuillez vérifier votre connexion (les proxies ne sont pas (encore) pris en compte)."] ;
         }
-        
 		$info = json_decode($jsonInfo);
         
         // S'il n'y a pas de champ séquence, alors identifiant faux ou ressource non trouvée
         if (!isset($info->sequences)) {
             return ['error' => "Identifiant erronné ou ressource non trouvée."] ;
         }
-        
-        // Init du répertoire des téléchargements s'il n'existe pas encore
-        if (!file_exists($this->repertoireDownload)) {
-			@mkdir($this->repertoireDownload, 0777);
-		}
-        // Création des répertoires de la ressource
-		$directory = $this->repertoireDownload . '/' .$identifier ;
-		$fullDirectory = $directory ;
-		if (!file_exists($fullDirectory)) {
-			@mkdir($fullDirectory, 0777);
-		}
-		if (!file_exists($fullDirectory.'/'.$this->repertoireVignettes)) {
-			@mkdir($fullDirectory.'/'.$this->repertoireVignettes, 0777);
-		}
-		if (!file_exists($fullDirectory.'/'.$this->repertoireImages)) {
-			@mkdir($fullDirectory.'/'.$this->repertoireImages, 0777);
-		}
-        // Check création des répertoires
-        if (!file_exists($fullDirectory.'/'.$this->repertoireImages)) {
-            return ['error' => "Impossible d'écrire dans le répertoire des projets."];
-        }
+
+        // Init des répertoires
+		$directory = $this->initDirectories($identifier);
         
         $images = [] ;
         $minW = 100000 ;
@@ -104,7 +85,7 @@ class GallicaDownloaderService
             $metadata[$singleData->label] = $singleData->value;
         }
         // Préparation de la réponse
-		$resource = array(
+		$resource = [
             'id' => $identifier,
 			'name' => $info->label,
             'title' => isset($metadata['Title']) ? $metadata['Title']: 'Inconnu',
@@ -127,28 +108,56 @@ class GallicaDownloaderService
                 'mean' => $meanH,
                 'ecart' => $meanEcartH,
             ],
-            'nbVues' => count($images),
-            
-		);
-        
-        
-        // Ecriture du fichier info
-		$fileInfo = fopen($directory.'/'. $identifier.'.txt', 'w');
-		fwrite($fileInfo, $resource['title'] ."\r\n");
-		fwrite($fileInfo, "--------------------------\r\n");
-        fwrite($fileInfo, "Identifiant : {$resource['id']}\r\n");
-		fwrite($fileInfo, "Auteur      : {$resource['author']}\r\n");
-		fwrite($fileInfo, "Date        : {$resource['date']}\r\n");
-        fwrite($fileInfo, "Nom         : {$resource['name']}\r\n");
-        fwrite($fileInfo, "Provenance  : {$resource['provider']}\r\n");
-		fwrite($fileInfo, "Source      : {$resource['source']}\r\n");
-        fwrite($fileInfo, "Description : {$resource['description']}\r\n");
-        fwrite($fileInfo, "URL         : {$resource['url']}\r\n");
-        fwrite($fileInfo, "Nb de vues  : ". count($resource['todo'])."\r\n");
-        
-		fclose($fileInfo);
+            'nbVues' => count($images)
+        ];
+
+		// Ecriture du fichier info
+		$this->writeInfoFile($directory.'/'. $identifier.'.txt', $resource);
 
 		return $resource;
+	}
+
+	protected function initDirectories($identifier)
+	{
+		// Init du répertoire des téléchargements s'il n'existe pas encore
+		if (!file_exists($this->repertoireDownload)) {
+			mkdir($this->repertoireDownload, 0777);
+		}
+		// Création des répertoires de la ressource
+		$directory = $this->repertoireDownload . '/' .$identifier ;
+		if (!file_exists($directory)) {
+			mkdir($directory, 0777);
+		}
+		if (!file_exists($directory.'/'.$this->repertoireVignettes)) {
+			mkdir($directory.'/'.$this->repertoireVignettes, 0777);
+		}
+		if (!file_exists($directory.'/'.$this->repertoireImages)) {
+			mkdir($directory.'/'.$this->repertoireImages, 0777);
+		}
+		// Check création des répertoires
+		if (!file_exists($directory.'/'.$this->repertoireImages)) {
+			return ['error' => "Impossible d'écrire dans le répertoire des projets."];
+		}
+		return $directory;
+	}
+
+	protected function writeInfoFile($filename, $resource)
+	{
+		// Ecriture du fichier info
+		$fileInfo = fopen($filename, 'w');
+		fwrite($fileInfo, $resource['title'] ."\r\n");
+		fwrite($fileInfo, "--------------------------\r\n");
+		fwrite($fileInfo, "Identifiant : {$resource['id']}\r\n");
+		fwrite($fileInfo, "Auteur      : {$resource['author']}\r\n");
+		fwrite($fileInfo, "Date        : {$resource['date']}\r\n");
+		fwrite($fileInfo, "Nom         : {$resource['name']}\r\n");
+		fwrite($fileInfo, "Provenance  : {$resource['provider']}\r\n");
+		fwrite($fileInfo, "Source      : {$resource['source']}\r\n");
+		fwrite($fileInfo, "Description : {$resource['description']}\r\n");
+		fwrite($fileInfo, "URL         : {$resource['url']}\r\n");
+		fwrite($fileInfo, "Nb de vues  : ". count($resource['todo'])."\r\n");
+
+		fclose($fileInfo);
 	}
 
 	public function download($image, $source, $destination, $options) {

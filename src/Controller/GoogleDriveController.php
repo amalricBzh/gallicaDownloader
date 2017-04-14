@@ -94,6 +94,9 @@ class GoogleDriveController
         $gallicaDownloaderId = $this->getDirectoryId($service, 'GallicaDownloader', 'root');
         // Répertoire du projet (avec création si nécessaire)
         $folderId = $this->getDirectoryId($service, $projetId, $gallicaDownloaderId);
+        // Envoyer le fichier description sur Google
+	    $source = $this->config['projectsPath'] . $projet['id'] .'/' .$projet['id']. '.txt' ;
+	    $this->sendTextFileToDrive($service, '_description.txt', $folderId, $source);
          
         // render view
         return $this->renderer->render($response, 'googleDrive/upload.phtml', [
@@ -208,46 +211,57 @@ class GoogleDriveController
     
     protected function sendImageToDrive($service, $filename, $parentId, $source)
     {
-        // On vérifie que l'image existe
-        $response = $service->files->listFiles(array(
-            'q' => "mimeType='image/jpeg' and name='$filename' and trashed=false and '$parentId' in parents",
-            'spaces' => 'drive',
-            'fields' => 'files(id)',
-        ));
-        // Si une réponse, on la met à jour
-        if (count($response) >0){
-            
-            $file = new \Google_Service_Drive_DriveFile([
-                'fileId' => $response[0]->id,
-                'name' => $filename,
-                'mimeType' => 'image/jpeg',
-            ]);
-
-            $result = $service->files->update(
-                $response[0]->id,
-                $file,
-                [
-                  'data' => file_get_contents($source),
-                  'uploadType' => 'multipart'
-                ]
-            );
-            return $result;
-        }
-       
-        // C'est une création
-        $file = new \Google_Service_Drive_DriveFile([
-            'name' => $filename,
-            'mimeType' => 'image/jpeg',
-            'parents' => [$parentId]
-        ]);
-        $result = $service->files->create(
-            $file,
-            [
-              'data' => file_get_contents($source),
-              'uploadType' => 'multipart'
-            ]
-        );
-        return $result;
+	    return $this->sendFileToDrive($service, $filename, $parentId, $source, 'image/jpeg');
     }
+
+	protected function sendTextFileToDrive($service, $filename, $parentId, $source)
+	{
+		return $this->sendFileToDrive($service, $filename, $parentId, $source, 'text/plain');
+	}
+
+	protected function sendFileToDrive($service, $filename, $parentId, $source, $mimeType)
+	{
+		$startTime = microtime(true);
+		// On vérifie que l'image existe
+		$response = $service->files->listFiles(array(
+			'q' => "mimeType='$mimeType' and name='$filename' and trashed=false and '$parentId' in parents",
+			'spaces' => 'drive',
+			'fields' => 'files(id)',
+		));
+		// Si une réponse, on la met à jour
+		if (count($response) >0){
+
+			$file = new \Google_Service_Drive_DriveFile([
+				'fileId' => $response[0]->id,
+				'name' => $filename,
+				'mimeType' => $mimeType,
+			]);
+
+			$result = $service->files->update(
+				$response[0]->id,
+				$file,
+				[
+					'data' => file_get_contents($source),
+					'uploadType' => 'multipart'
+				]
+			);
+			return $result;
+		}
+
+		// C'est une création
+		$file = new \Google_Service_Drive_DriveFile([
+			'name' => $filename,
+			'mimeType' => $mimeType,
+			'parents' => [$parentId]
+		]);
+		$result = $service->files->create(
+			$file,
+			[
+				'data' => file_get_contents($source),
+				'uploadType' => 'multipart'
+			]
+		);
+		return $result;
+	}
 }
 

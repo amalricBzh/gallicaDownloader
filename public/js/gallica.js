@@ -72,13 +72,13 @@ function uploadPageAjax(documentId, accessToken, parentFolderId){
 		},
 		dataType: "json",
 		success : function(data) {
-		  //console.log(data.message);
-		  if (data.result !== "error") {
+	      //console.log(data.message);
+          if (data.result !== "error") {
 			$("#nbGoogleDrive").html(data.nbGoogleDrive);
 			$("#nbDownloaded").html(data.nbDownloaded);
 			$("#resultMessage").html(data.message);
 			waitAndUploadPage(0, documentId, accessToken, parentFolderId);
-		  }
+	      }
 		},
 		fail : function(data) {
 			alert( "Une erreur est survenue (backend)." );
