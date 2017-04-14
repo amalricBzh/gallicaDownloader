@@ -105,12 +105,12 @@ $(document).ready(function(){
   //console.info("Initialising GallicaDownloader...");
   $("#projetsTable").DataTable({
     "columns" : [
-    {"width" : "100px", "searchable" : false, "orderable" : false},
-    {"width" : "180px"},
-    {"width" : "420px"},
-    {"width" : "60px", "searchable" : false, "orderable" : false},
-    {"width" : "90px", "searchable" : false, "orderable" : false},
-    {"width" : "90px", "searchable" : false, "orderable" : false}
+      {"width" : "100px", "searchable" : false, "orderable" : false},
+      {"width" : "200px"},
+      {"width" : "440px"},
+      {"width" : "60px", "searchable" : false, "orderable" : false},
+      {"width" : "90px", "searchable" : false, "orderable" : false},
+      {"width" : "160px", "searchable" : false, "orderable" : false}
     ],
     "order" : [[1, "asc"]],
     "pageLength": 15,
