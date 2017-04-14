@@ -1,8 +1,11 @@
-
 .container {
   padding: 0;
 }
 
+a.link-danger,
+a.link-danger:visited {
+  color: red;
+}
 
 h1 {
   font-size: 28px;
@@ -27,7 +30,7 @@ div#resultats div#images img {
 }
 
 .fa-spin-hover:hover {
-   animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
 }
 
 p.bg-danger,
