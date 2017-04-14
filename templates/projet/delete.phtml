@@ -1,0 +1,21 @@
+<?php
+    include __DIR__ .'/../partials/header.phtml';
+?>
+<div class="container">
+    <h1>Supprimer le projet <?= $projet['id'] ?></h1>
+
+    <p>Vous allez supprimer le projet <?= $projet['id'] ?> :</p>
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-1"><p><strong>Auteur :</strong></p><p class="well"><?= $projet['author'] ?></p></div>
+        <div class="col-sm-7"><p><strong>Titre :</strong></p><p class="well"><?= $projet['title'] ?></p></div>
+    </div>
+    <form class="form-horizontal" method="POST">
+        <div class="form-group">
+            <input id="id" name="id" type="hidden" value="<?= $projet['id'] ?>" />
+            <div class="col-sm-2 col-sm-offset-1">
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash fa-lg"></i> Supprimer</button>
+            </div>
+        </div>
+    </form>
+</div>
+<?php include __DIR__ . '/../partials/footer.phtml'; ?>
