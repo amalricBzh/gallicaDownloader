@@ -47,6 +47,13 @@ class ProjetService
         $this->write();
     }
     
+    public function delete($projectId)
+    {
+        unset($this->projects['projects'][$projectId]) ;
+        $this->rmDir($this->config['projectsPath'].'/' .$projectId);
+        $this->write();
+    }
+    
     public function write()
     {
 	    if (!is_dir($this->config['projectsPath'])) {
@@ -58,5 +65,14 @@ class ProjetService
     public function read()
     {
         return json_decode(file_get_contents($this->config['projectsConfig']), true);
+    }
+    
+    protected function rmDir($dir) {
+        $files = array_diff(scandir($dir), ['.', '..']);
+        foreach ($files as $file) {
+            echo " *** $file ";
+          (is_dir("$dir/$file")) ? $this->rmDir("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
     }
 }

@@ -30,6 +30,7 @@
                     <a href="/projet/options?id=<?= $projet['id'] ?>" class="action" title="Modifier les options du projet"><i class="fa fa-cogs fa-lg fa-spin-hover"></i></a>
                     <a href="/download?id=<?= $projet['id'] ?>" class="action" title="Télécharger sur le serveur"><i class="fa fa-download fa-lg"></i></a>
                     <a href="/googleDrive?id=<?= $projet['id'] ?>" class="action" title="Envoyer sur Google Drive"><i class="fa fa-cloud-upload fa-lg"></i></a>
+                    <a href="/projet/delete/<?= $projet['id'] ?>" class="action link-danger" title="Supprimer le projet"><i class="fa fa-trash fa-lg"></i></a>
                 </td>
             </tr>
         <?php endforeach; ?>
