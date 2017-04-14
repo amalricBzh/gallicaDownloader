@@ -7,8 +7,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 class GoogleDriveController
 {
-	protected $mainLogger ;
-	protected $errorLogger ;
+    protected $mainLogger ;
+    protected $errorLogger ;
     protected $renderer ;
     protected $config ;
     protected $projets ;
@@ -19,8 +19,8 @@ class GoogleDriveController
     public function __construct($config)
     {
         $this->projets = $config['projets'];
-	    $this->mainLogger = $config['mainLogger'];
-	    $this->errorLogger = $config['errorLogger'];
+        $this->mainLogger = $config['mainLogger'];
+        $this->errorLogger = $config['errorLogger'];
         $this->renderer = $config['renderer'];
         $this->flash = $config['flash'];
         $this->config = $config['settings'] ;
@@ -141,12 +141,15 @@ class GoogleDriveController
         $result = $this->sendImageToDrive($service, $image['filename'], $params['folderId'], $source);
         
         if (isset($result['id'])){
+            // Supprimer l'image du disque
+            unlink($this->config['projectsPath']. $projet['id'] .'/images/' .$image['filename']);
+            unlink($this->config['projectsPath']. $projet['id'] .'/vignettes/' .$image['filename']);
+            
             // Mise à jour de l'image
             $image['filename'] = $result['name'];
             // On met l'image dans les downloaded et on l'enlève des todo.
             $projet['googleDrive'][$image['page']] = $image;
             unset($projet['downloaded'][$image['page']]);
-            // Supprimer aussi l'image du disque
             
             // Sauvegarde du projet
             $this->projets->update($projet);
@@ -246,6 +249,5 @@ class GoogleDriveController
         );
         return $result;
     }
-    
-  
 }
+
