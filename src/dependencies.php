@@ -55,7 +55,10 @@ $container['gallicaDownloader'] = function(\Slim\Container $container) {
     return new \Service\GallicaDownloaderService($container['settings']);
 };
 
-
+// Unités service
+$container['unitesService'] = function(\Slim\Container $container) {
+    return new \Service\UnitesService($container['settings']);
+};
 
 
 

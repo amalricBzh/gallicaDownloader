@@ -63,8 +63,17 @@ class DownloadController
         if ($projet === null) {
             return $this->jsonResponseError($response, "Aucun projet trouvé avec l'identifiant $projetId.");
         }
+        // Si pas d'image à télécharger
+        if ($projet['todo']['nb'] === 0) {
+            return $this->jsonResponse($response, [
+                'result' => 'success',
+                'message' => "Toutes les images ont été téléchargées.",
+                'nbTodo' => $projet['todo']['nb'],
+                'nbDownloaded' => $projet['downloaded']['nb']
+            ]);
+        }
         // Get first todo image
-        $tmpArray = array_reverse($projet['todo']);
+        $tmpArray = array_reverse($projet['todo']['images']);
         $image = array_pop($tmpArray);
         unset($tmpArray);
         $options = [
@@ -88,17 +97,21 @@ class DownloadController
         if ($result['result'] === 'success'){
             // Mise à jour de l'image
             $image['filename'] = $result['filename'];
+            $image['filesize'] = $result['filesize'];
             // On met l'image dans les downloaded et on l'enlève des todo.
-            $projet['downloaded'][$image['page']] = $image;
-            unset($projet['todo'][$image['page']]);
+            $projet['downloaded']['images'][$image['page']] = $image;
+            unset($projet['todo']['images'][$image['page']]);
             // Sauvegarde du projet
             $this->projets->update($projet);
+            $unitesService = new \Service\UnitesService();
             return $this->jsonResponse($response, [
                 'result' => 'success',
                 'message' => "Image ${image['page']} téléchargée.",
-                'nbTodo' => count($projet['todo']),
-                'nbDownloaded' => count($projet['downloaded']),
-                'filename' => $result['filename']
+                'nbTodo' => $projet['todo']['nb'],
+                'nbDownloaded' => $projet['downloaded']['nb'],
+                'filename' => $result['filename'],
+                'size' => $unitesService->getSize($projet['downloaded']['size']),
+                'estimatedSize' => $unitesService->getSize($projet['downloaded']['size'] * $projet['nbVues']/$projet['downloaded']['nb'] )
             ]);
         }
     }
