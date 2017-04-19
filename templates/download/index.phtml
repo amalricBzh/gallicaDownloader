@@ -1,8 +1,17 @@
-<?php include __DIR__ .'/../partials/header.phtml'; ?>
+<?php include __DIR__ .'/../partials/header.phtml';
+$unitesService = new \Service\UnitesService();
+if ($projet['downloaded']['nb'] === 0){
+    $estimatedSize = '-' ;
+} else {
+    $estimatedSize = $unitesService->getSize($projet['downloaded']['size'] * $projet['nbVues']/$projet['downloaded']['nb']);
+}
+?>
 <div class="container">
     <h1>Téléchargement de <?= $projet['id'] ?></h1>
-    <p>Vues téléchargées : <span id="nbDownloaded"><?= count($projet['downloaded']) ?></span></p>
-    <p>Vues restantes : <span id="nbTodo"><?= count($projet['todo']) ?></span></p>
+    <p>Vues téléchargées : <span id="nbDownloaded"><?= $projet['downloaded']['nb'] ?></span></p>
+    <p>Vues restantes : <span id="nbTodo"><?= $projet['todo']['nb'] ?></span></p>
+    <p>Taille téléchargée : <span id="size"><?= $unitesService->getSize($projet['downloaded']['size']) ?></span></p>
+    <p>Taille totale estimée : <span id="estimatedSize"><?= $estimatedSize; ?></span></p>
     <p id="resultMessage"></p>
     <div id="temporary-messages" class="col-sm-12"></div>
     <div id="messages" class="col-sm-12"></div>

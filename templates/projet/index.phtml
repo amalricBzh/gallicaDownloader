@@ -1,4 +1,7 @@
-<?php include __DIR__ .'/../partials/header.phtml'; ?>
+<?php include __DIR__ .'/../partials/header.phtml';
+    $unitesService = new \Service\UnitesService() ;
+
+ ?>
 <div class="container">
     <h1>Liste des projets</h1>
     <?php 
@@ -13,6 +16,7 @@
                 <th>Auteur</th>
                 <th>Titre</th>
                 <th>Nb vues</th>
+                <th>Taille</th>
                 <th>{G / <i class="fa fa-download fa-lg"></i> / <i class="fa fa-cloud-upload fa-lg"></i></th>
                 <th>&nbsp;</th>
             </tr>
@@ -24,7 +28,8 @@
                 <td><div><?= $projet['author'] ?></div></td>
                 <td><div><?= $projet['title'] ?></div></td>
                 <td><?= $projet['nbVues'] ?></td>
-                <td><?= $projet['nbTodo'] ?> / <?= $projet['nbDownloaded'] ?> / <?= $projet['nbGoogleDrive'] ?></td>
+                <td><?= $unitesService->getSize($projet['downloaded']['size']) ?></td>
+                <td><?= $projet['todo']['nb'] ?> / <?= $projet['downloaded']['nb'] ?> / <?= $projet['googleDrive']['nb'] ?></td>
                 <td>
                     <a href="/projet/nouveau?id=<?= $projet['id'] ?>" class="action" title="Réinitialiser le projet"><i class="fa fa-refresh fa-lg fa-spin-hover"></i></a>
                     <a href="/projet/options?id=<?= $projet['id'] ?>" class="action" title="Modifier les options du projet"><i class="fa fa-cogs fa-lg fa-spin-hover"></i></a>

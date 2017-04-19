@@ -124,8 +124,13 @@ class GoogleDriveController {
 			return $this->jsonResponseError( $response, "Aucun projet trouvé avec l'identifiant $projetId." );
 		}
 		// Il y a au moins une image à télécharger
-		if ( count( $projet['downloaded'] ) === 0 ) {
-			return $this->jsonResponseError( $response, "Toutes les images ont été envoyées sur GoogleDrive !" );
+		if ( $projet['downloaded']['nb'] === 0 ) {
+			return $this->jsonResponse( $response, [
+				'result'        => 'success',
+				'message'       => "Toutes les images ont été téléchargées sur GoogleDrive !",
+				'nbDownloaded'  => $projet['downloaded']['nb'],
+				'nbGoogleDrive' =>  $projet['googleDrive']['nb']
+			] );
 		}
 
 		// Set accessToken from request
@@ -133,7 +138,7 @@ class GoogleDriveController {
 		$service = new \Google_Service_Drive( $this->client );
 
 		// Get first todo image
-		$tmpArray = array_reverse( $projet['downloaded'] );
+		$tmpArray = array_reverse( $projet['downloaded']['images'] );
 		$image    = array_pop( $tmpArray );
 		unset( $tmpArray );
 
@@ -149,8 +154,8 @@ class GoogleDriveController {
 			// Mise à jour de l'image
 			$image['filename'] = $result['name'];
 			// On met l'image dans les downloaded et on l'enlève des todo.
-			$projet['googleDrive'][ $image['page'] ] = $image;
-			unset( $projet['downloaded'][ $image['page'] ] );
+			$projet['googleDrive']['images'][ $image['page'] ] = $image;
+			unset( $projet['downloaded']['images'][ $image['page'] ] );
 
 			// Sauvegarde du projet
 			$this->projets->update( $projet );
@@ -158,8 +163,8 @@ class GoogleDriveController {
 			return $this->jsonResponse( $response, [
 				'result'        => 'success',
 				'message'       => "Image ${image['page']} téléchargée sur GoogleDrive.",
-				'nbDownloaded'  => count( $projet['downloaded'] ),
-				'nbGoogleDrive' => count( $projet['googleDrive'] ),
+				'nbDownloaded'  => $projet['downloaded']['nb'],
+				'nbGoogleDrive' =>  $projet['googleDrive']['nb'],
 				'filename'      => $result['filename']
 			] );
 		}

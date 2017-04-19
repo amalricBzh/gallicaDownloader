@@ -40,15 +40,19 @@ function downloadPageAjax(documentId) {
 			//console.log(data.message);
 			$("#nbDownloaded").html(data.nbDownloaded);
 			$("#nbTodo").html(data.nbTodo);
+			$("#size").html(data.size);
+			$("#estimatedSize").html(data.estimatedSize);
 			$("#resultMessage").html(data.message);
-			waitAndDownloadPage(0, documentId);
+			if (data.nbTodo > 0) {
+				waitAndDownloadPage(0, documentId);
+			}
 		},
 		fail: function (data) {
 			alert("Une erreur est survenue (backend).");
 		},
 		error: function (data, status, errorThrown) {
 			//console.info('Fail', data, status, errorThrown);
-			if (data.responseText.search("Maximum execution time") > 0) {
+			if (data.responseText && data.responseText.search("Maximum execution time") > 0) {
 				// Time out. On recommence.
 				CfgTimeoutOccured = CfgTimeoutOccured + 1;
 				if (CfgTimeoutOccured >= CfgTimeoutTries) {
@@ -81,7 +85,9 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 				$("#nbGoogleDrive").html(data.nbGoogleDrive);
 				$("#nbDownloaded").html(data.nbDownloaded);
 				$("#resultMessage").html(data.message);
-				waitAndUploadPage(0, documentId, accessToken, parentFolderId);
+				if (data.nbDownloaded > 0) {
+					waitAndUploadPage(0, documentId, accessToken, parentFolderId);
+				}
 			}
 		},
 		fail: function (data) {
@@ -111,10 +117,11 @@ $(document).ready(function () {
 		"columns": [
 			{"width": "100px", "searchable": false, "orderable": false},
 			{"width": "200px"},
-			{"width": "440px"},
+			{"width": "400px"},
 			{"width": "60px", "searchable": false, "orderable": false},
-			{"width": "90px", "searchable": false, "orderable": false},
-			{"width": "160px", "searchable": false, "orderable": false}
+			{"width": "70px", "searchable": false, "orderable": false},
+			{"width": "70px", "searchable": false, "orderable": false},
+			{"width": "150px", "searchable": false, "orderable": false}
 		],
 		"order": [[1, "asc"]],
 		"pageLength": 15,

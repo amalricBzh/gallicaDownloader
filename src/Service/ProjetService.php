@@ -37,14 +37,19 @@ class ProjetService
         return $this->projects['projects'];
     }
     
-    public function update($project)
+    public function update(&$project)
     {
-        $project['nbTodo'] = count($project['todo']);
-        $project['nbDownloaded'] = count($project['downloaded']);
-        $project['nbGoogleDrive'] = count($project['googleDrive']);
+        $project['downloaded']['size'] = 0 ;
+        foreach ($project['downloaded']['images'] as $image) {
+            $project['downloaded']['size'] += $image['filesize'];
+        }
+        $project['todo']['nb'] = count($project['todo']['images']);
+        $project['downloaded']['nb'] = count($project['downloaded']['images']);
+        $project['googleDrive']['nb'] = count($project['googleDrive']['images']);
         $this->projects['projects'][$project['id']] = $project ;
-        $this->projects['nbProjects'] = count($this->projects['projects']);
+        $this->projects['nb'] = count($this->projects['projects']);
         $this->write();
+        return $project ;
     }
     
     public function delete($projectId)
