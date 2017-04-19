@@ -86,6 +86,12 @@ class ProjetController
 		}
 		// On ne garde que les caractères alphanum de l'id
 		$projetId = preg_replace( '/[^\da-z]/i', '', $projetId );
+        
+        // Si le projet existe déjà, on l'efface
+        $projet = $this->projets->get($projetId);
+        if ($projet !== null) {
+            $this->projets->delete( $projetId );
+        }
 
 		$resource = $this->gallicaDownloader->info( $projetId );
 		// Si erreur
