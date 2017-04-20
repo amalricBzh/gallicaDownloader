@@ -1,6 +1,19 @@
 var CfgTimeoutTries = 3;
 var CfgTimeoutOccured = 0;
 
+function percentToRgb(percent) {
+	var red = 0;
+	var green = 0;
+	if (percent <= 50) {
+		red = 255;
+		green = Math.floor(percent * 255 / 50);
+	} else {
+		red = Math.floor((100 - percent) * 255 / 50);
+		green = 255;
+	}
+	return "rgb(" + red + ", " + green + ", 0)";
+}
+
 function waitAndDownloadPage(duration, documentId) {
 	duration = typeof duration !== "undefined" ? duration : 0;
 	// On attend entre 0.5 et 1 secondes, plus éventuellement un autre délai passé en paramètre
@@ -27,7 +40,6 @@ function waitAndUploadPage(duration, documentId, accessToken, parentFolderId) {
 
 /********* Téléchargement Gallica ******************/
 function downloadPageAjax(documentId) {
-	//console.info("Downloading...");
 	// On demande le téléchargement d'une image
 	$.ajax({
 		url: "/download/next",
@@ -39,6 +51,7 @@ function downloadPageAjax(documentId) {
 		success: function (data) {
 			//console.log(data.message);
 			$("#nbDownloaded").html(data.nbDownloaded);
+			$("#progressbar").progressbar("option", "value", data.nbDownloaded);
 			$("#nbTodo").html(data.nbTodo);
 			$("#size").html(data.size);
 			$("#estimatedSize").html(data.estimatedSize);
@@ -148,3 +161,38 @@ $(document).ready(function () {
 		uploadPageAjax(googleDriveDocumentId, accessToken, parentFolderId);
 	}
 });
+
+/********* Progress bar *****************/
+$(document).ready(function () {
+
+	var done = parseInt($("#nbDownloaded").val());
+	var max = done + parseInt($("#nbTodo").val());
+
+	var progressbar = $("#progressbar");
+	var progressLabel = $(".progress-label");
+	var progressbarValue = progressbar.find(".ui-progressbar-value");
+
+	progressbar.progressbar({
+		value: done,
+		max: max,
+		classes: {
+			"ui-progressbar": "ui-corner-all",
+			"ui-progressbar-complete": "ui-corner-all",
+			"ui-progressbar-value": "ui-corner-all"
+		},
+		change: function () {
+			var percent = Math.floor(parseInt(progressbar.progressbar("value")) * 100 / max);
+			progressLabel.text(progressbar.progressbar("value") + "/" + max + " (" + percent + "%)");
+			var red = Math.floor((100 - percent) * 255 / 100);
+			var green = Math.floor(percent * 255 / 100);
+			$(".ui-progressbar-value").css(
+				"background-color", percentToRgb(percent)
+			);
+		},
+		complete: function () {
+			progressLabel.text("Téléchargement terminé !");
+		}
+	});
+});
+
+
