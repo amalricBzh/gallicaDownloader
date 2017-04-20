@@ -43,7 +43,7 @@ Il vous faudra une clef pour l'API Google (Suivez l'étape 1 de la page https://
 
     
 ## Amélioration et fonctionnalités à implémenter
- - Voir les [tickets d'amélioration](https://github.com/amalricBzh/gallicaDownloader/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement)
+ - Voir les [tickets d'amélioration](https://github.com/amalricBzh/gallicaDownloader/issues?q=is%3Aopen+is%3Aissue+label%3Aamélioration)
  - Ajoutez les votres !
  
  
