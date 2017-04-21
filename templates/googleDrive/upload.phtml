@@ -1,8 +1,12 @@
 <?php include __DIR__ .'/../partials/header.phtml'; ?>
 <div class="container">
     <h1>Transfert sur GoogleDrive de <?= $projet['id'] ?></h1>
-    <p>Vues transférées : <span id="nbGoogleDrive"><?=$projet['googleDrive']['nb'] ?></span></p>
-    <p>Vues restantes : <span id="nbDownloaded"><?= $projet['downloaded']['nb'] ?></span></p>
+    
+    <div id="progressbar"><div class="progress-label">Envoi en cours...</div></div>
+    
+    <input type="hidden" id="progressbarNbDone" value="<?= $projet['googleDrive']['nb'] ?>">
+    <input type="hidden" id="progressbarNbTodo" value="<?= $projet['downloaded']['nb'] ?>">
+    
     <p id="resultMessage"></p>
     <div id="temporary-messages" class="col-sm-12"></div>
     <div id="messages" class="col-sm-12"></div>

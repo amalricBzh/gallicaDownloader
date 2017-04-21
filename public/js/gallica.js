@@ -49,10 +49,7 @@ function downloadPageAjax(documentId) {
 		},
 		dataType: "json",
 		success: function (data) {
-			//console.log(data.message);
-			$("#nbDownloaded").html(data.nbDownloaded);
 			$("#progressbar").progressbar("option", "value", data.nbDownloaded);
-			$("#nbTodo").html(data.nbTodo);
 			$("#size").html(data.size);
 			$("#estimatedSize").html(data.estimatedSize);
 			$("#resultMessage").html(data.message);
@@ -64,7 +61,6 @@ function downloadPageAjax(documentId) {
 			alert("Une erreur est survenue (backend).");
 		},
 		error: function (data, status, errorThrown) {
-			//console.info('Fail', data, status, errorThrown);
 			if (data.responseText && data.responseText.search("Maximum execution time") > 0) {
 				// Time out. On recommence.
 				CfgTimeoutOccured = CfgTimeoutOccured + 1;
@@ -81,7 +77,6 @@ function downloadPageAjax(documentId) {
 
 /************* Envoi Google Drive *******************/
 function uploadPageAjax(documentId, accessToken, parentFolderId) {
-	//console.info("Uploading...");
 	// On demande l'envoi d'une image
 	$.ajax({
 		url: "/googleDrive/next",
@@ -93,10 +88,8 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 		},
 		dataType: "json",
 		success: function (data) {
-			//console.log(data.message);
 			if (data.result !== "error") {
-				$("#nbGoogleDrive").html(data.nbGoogleDrive);
-				$("#nbDownloaded").html(data.nbDownloaded);
+        $("#progressbar").progressbar("option", "value", data.nbGoogleDrive);
 				$("#resultMessage").html(data.message);
 				if (data.nbDownloaded > 0) {
 					waitAndUploadPage(0, documentId, accessToken, parentFolderId);
@@ -107,7 +100,6 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 			alert("Une erreur est survenue (backend).");
 		},
 		error: function (data, status, errorThrown) {
-			//console.info('Fail', data, status, errorThrown);
 			if (data.responseText.search("Maximum execution time") > 0) {
 				// Time out. On recommence.
 				CfgTimeoutOccured = CfgTimeoutOccured + 1;
@@ -165,8 +157,8 @@ $(document).ready(function () {
 /********* Progress bar *****************/
 $(document).ready(function () {
 
-	var done = parseInt($("#nbDownloaded").val());
-	var max = done + parseInt($("#nbTodo").val());
+	var done = parseInt($("#progressbarNbDone").val());
+	var max = done + parseInt($("#progressbarNbTodo").val());
 
 	var progressbar = $("#progressbar");
 	var progressLabel = $(".progress-label");
@@ -182,7 +174,7 @@ $(document).ready(function () {
 		},
 		change: function () {
 			var percent = Math.floor(parseInt(progressbar.progressbar("value")) * 100 / max);
-			progressLabel.text(progressbar.progressbar("value") + "/" + max + " (" + percent + "%)");
+			progressLabel.text(progressbar.progressbar("value") + "/" + max + " images (" + percent + "%)");
 			var red = Math.floor((100 - percent) * 255 / 100);
 			var green = Math.floor(percent * 255 / 100);
 			$(".ui-progressbar-value").css(
