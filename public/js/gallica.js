@@ -90,8 +90,8 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 	if (lastTime === 0) {
 		lastTime = performance.now();
 	}
-    var lastDuration = performance.now() - lastTime;
-    lastTime = performance.now();
+	var lastDuration = performance.now() - lastTime;
+	lastTime = performance.now();
 	// On demande l'envoi d'une image
 	$.ajax({
 		url: "/googleDrive/next",
@@ -106,8 +106,8 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 		success: function (data) {
 			if (data.result !== "error") {
 				$("#progressbar").progressbar("option", "value", data.nbGoogleDrive);
-                $("#time").html(data.totalTime);
-			    $("#estimatedTime").html(data.estimatedTime);
+				$("#time").html(data.totalTime);
+				$("#estimatedTime").html(data.estimatedTime);
 				$("#resultMessage").html(data.message);
 				if (data.nbDownloaded > 0) {
 					waitAndUploadPage(0, documentId, accessToken, parentFolderId);
