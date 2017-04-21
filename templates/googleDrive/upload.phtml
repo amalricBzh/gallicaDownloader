@@ -1,4 +1,11 @@
-<?php include __DIR__ .'/../partials/header.phtml'; ?>
+<?php include __DIR__ .'/../partials/header.phtml';
+$unitesService = new \Service\UnitesService();
+if ($projet['googleDrive']['nb'] === 0){
+    $estimatedTime = '-' ;
+} else {
+    $estimatedTime = $unitesService->getTime($projet['googleDrive']['totalTime'] * $projet['nbVues']/$projet['googleDrive']['nb'] - $projet['googleDrive']['totalTime']);
+}
+?>
 <div class="container">
     <h1>Transfert sur GoogleDrive de <?= $projet['id'] ?></h1>
     
@@ -6,6 +13,9 @@
     
     <input type="hidden" id="progressbarNbDone" value="<?= $projet['googleDrive']['nb'] ?>">
     <input type="hidden" id="progressbarNbTodo" value="<?= $projet['downloaded']['nb'] ?>">
+    
+    <p>Temps passé : <span id="time"><?= $unitesService->getTime($projet['googleDrive']['totalTime'] ) ?></span>.</p>
+    <p>Temps restant estimé : <span id="estimatedTime"><?= $estimatedTime; ?></span>.</p>
     
     <p id="resultMessage"></p>
     <div id="temporary-messages" class="col-sm-12"></div>

@@ -16,10 +16,10 @@ if ($projet['downloaded']['nb'] === 0){
     <input type="hidden" id="progressbarNbDone" value="<?= $projet['downloaded']['nb'] ?>">
     <input type="hidden" id="progressbarNbTodo" value="<?= $projet['todo']['nb'] ?>">
 
-    <p>Taille téléchargée : <span id="size"><?= $unitesService->getSize($projet['downloaded']['size']) ?></span></p>
-    <p>Taille totale estimée : <span id="estimatedSize"><?= $estimatedSize; ?></span></p>
-    <p>Temps passé : <span id="time"><?= $unitesService->getTime($projet['downloaded']['totalTime'] ) ?></span></p>
-    <p>Temps restant estimé : <span id="estimatedTime"><?= $estimatedTime; ?></span></p>
+    <p>Taille téléchargée : <span id="size"><?= $unitesService->getSize($projet['downloaded']['size']) ?></span>.</p>
+    <p>Taille totale estimée : <span id="estimatedSize"><?= $estimatedSize; ?></span>.</p>
+    <p>Temps passé : <span id="time"><?= $unitesService->getTime($projet['downloaded']['totalTime'] ) ?></span>.</p>
+    <p>Temps restant estimé : <span id="estimatedTime"><?= $estimatedTime; ?></span>.</p>
     <p id="resultMessage"></p>
     <div id="temporary-messages" class="col-sm-12"></div>
     <div id="messages" class="col-sm-12"></div>
