@@ -13,7 +13,7 @@ class ProjetService
         
         // Init par défaut
         $this->projects = [
-            'nbProjects' => 0,
+            'nb' => 0,
             'projects' => []
         ];
         // Le fichier existe-t-il ? Si non, on écrit le fichier par défaut
@@ -47,7 +47,6 @@ class ProjetService
         $project['downloaded']['nb'] = count($project['downloaded']['images']);
         $project['googleDrive']['nb'] = count($project['googleDrive']['images']);
         $this->projects['projects'][$project['id']] = $project ;
-        $this->projects['nb'] = count($this->projects['projects']);
         $this->write();
         return $project ;
     }
@@ -64,6 +63,7 @@ class ProjetService
 	    if (!is_dir($this->config['projectsPath'])) {
 		    mkdir($this->config['projectsPath'], 0777, true);
 	    }
+        $this->projects['nb'] = count($this->projects['projects']);
         file_put_contents($this->config['projectsConfig'], json_encode($this->projects,  JSON_PRETTY_PRINT));
     }
     
