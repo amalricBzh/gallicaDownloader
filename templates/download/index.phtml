@@ -11,8 +11,8 @@ if ($projet['downloaded']['nb'] === 0){
     
     <div id="progressbar"><div class="progress-label">Chargement en cours...</div></div>
     
-    <input type="hidden" id="nbDownloaded" value="<?= $projet['downloaded']['nb'] ?>">
-    <input type="hidden" id="nbTodo" value="<?= $projet['todo']['nb'] ?>">
+    <input type="hidden" id="progressbarNbDone" value="<?= $projet['downloaded']['nb'] ?>">
+    <input type="hidden" id="progressbarNbTodo" value="<?= $projet['todo']['nb'] ?>">
 
     <p>Taille téléchargée : <span id="size"><?= $unitesService->getSize($projet['downloaded']['size']) ?></span></p>
     <p>Taille totale estimée : <span id="estimatedSize"><?= $estimatedSize; ?></span></p>
