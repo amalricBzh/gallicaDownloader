@@ -75,7 +75,8 @@ class DownloadController
                 'message'      => "Toutes les images ont été téléchargées.",
                 'nbTodo'       => $projet['todo']['nb'],
                 'nbDownloaded' => $projet['downloaded']['nb'],
-                'totalTime'    => $projet['downloaded']['totalTime']
+                'totalTime' => $unitesService->getTime($projet['downloaded']['totalTime']),
+                'estimatedTime' => $unitesService->getTime(0)
             ]);
         }
         // Get first todo image

@@ -123,13 +123,19 @@ class GoogleDriveController {
 		if ( $projet === null ) {
 			return $this->jsonResponseError( $response, "Aucun projet trouvé avec l'identifiant $projetId." );
 		}
-		// Il y a au moins une image à télécharger
+        // On ajoute le temps de chargement de la dernière image
+        if (isset ($params['time'])) {
+            $projet['googleDrive']['totalTime'] += floatval ($params['time']);
+        }
+		// Si plus d'image à télécharger
 		if ( $projet['downloaded']['nb'] === 0 ) {
 			return $this->jsonResponse( $response, [
 				'result'        => 'success',
 				'message'       => "Toutes les images ont été téléchargées sur GoogleDrive !",
 				'nbDownloaded'  => $projet['downloaded']['nb'],
-				'nbGoogleDrive' =>  $projet['googleDrive']['nb']
+				'nbGoogleDrive' =>  $projet['googleDrive']['nb'],
+                'totalTime' => $unitesService->getTime($projet['googleDrive']['totalTime']),
+                'estimatedTime' => $unitesService->getTime(0)
 			] );
 		}
 
@@ -159,13 +165,16 @@ class GoogleDriveController {
 
 			// Sauvegarde du projet
 			$this->projets->update( $projet );
-
+            
+            $unitesService = new \Service\UnitesService();
 			return $this->jsonResponse( $response, [
 				'result'        => 'success',
-				'message'       => "Image ${image['page']} téléchargée sur GoogleDrive.",
+				'message'       => "Image ${image['page']} envoyée sur GoogleDrive.",
 				'nbDownloaded'  => $projet['downloaded']['nb'],
 				'nbGoogleDrive' =>  $projet['googleDrive']['nb'],
-				'filename'      => $result['filename']
+				'filename'      => $result['filename'],
+                'totalTime' => $unitesService->getTime($projet['googleDrive']['totalTime']),
+                'estimatedTime' => $unitesService->getTime($projet['googleDrive']['totalTime'] * $projet['nbVues']/$projet['googleDrive']['nb'] - $projet['googleDrive']['totalTime'] )
 			] );
 		}
 
