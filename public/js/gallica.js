@@ -1,6 +1,6 @@
 var CfgTimeoutTries = 3;
 var CfgTimeoutOccured = 0;
-var lastTime = 0 ;
+var lastTime = 0;
 
 function percentToRgb(percent) {
 	var red = 0;
@@ -41,27 +41,27 @@ function waitAndUploadPage(duration, documentId, accessToken, parentFolderId) {
 
 /********* Téléchargement Gallica ******************/
 function downloadPageAjax(documentId) {
-  if (lastTime === 0) {
-    lastTime = performance.now();
-  }
-  lastDuration = performance.now() - lastTime;
-  lastTime = performance.now();
+	if (lastTime === 0) {
+		lastTime = performance.now();
+	}
+	var lastDuration = performance.now() - lastTime;
+	lastTime = performance.now();
 	// On demande le téléchargement d'une image
 	$.ajax({
 		url: "/download/next",
 		type: "POST",
 		data: {
 			id: documentId,
-      time: lastDuration / 1000,
+			time: lastDuration / 1000
 		},
 		dataType: "json",
 		success: function (data) {
 			$("#progressbar").progressbar("option", "value", data.nbDownloaded);
 			$("#size").html(data.size);
 			$("#estimatedSize").html(data.estimatedSize);
-      $("#time").html(data.totalTime);
+			$("#time").html(data.totalTime);
 			$("#estimatedTime").html(data.estimatedTime);
-			
+
 			$("#resultMessage").html(data.message);
 			if (data.nbTodo > 0) {
 				waitAndDownloadPage(0, documentId);
@@ -87,9 +87,9 @@ function downloadPageAjax(documentId) {
 
 /************* Envoi Google Drive *******************/
 function uploadPageAjax(documentId, accessToken, parentFolderId) {
-  if (lastTime === 0) {
-    lastTime = performance.now();
-  }
+	if (lastTime === 0) {
+		lastTime = performance.now();
+	}
 	// On demande l'envoi d'une image
 	$.ajax({
 		url: "/googleDrive/next",
@@ -98,12 +98,12 @@ function uploadPageAjax(documentId, accessToken, parentFolderId) {
 			id: documentId,
 			accessToken: accessToken,
 			folderId: parentFolderId,
-      time: performance.now() - lastTime,
+			time: performance.now() - lastTime
 		},
 		dataType: "json",
 		success: function (data) {
 			if (data.result !== "error") {
-        $("#progressbar").progressbar("option", "value", data.nbGoogleDrive);
+				$("#progressbar").progressbar("option", "value", data.nbGoogleDrive);
 				$("#resultMessage").html(data.message);
 				if (data.nbDownloaded > 0) {
 					waitAndUploadPage(0, documentId, accessToken, parentFolderId);
