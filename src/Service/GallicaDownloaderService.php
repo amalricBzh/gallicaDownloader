@@ -211,6 +211,7 @@ class GallicaDownloaderService
 			'result'   => 'success',
 			'filename' => $result['filename'],
 			'filesize' => $result['filesize'],
+            'time'     => $result['time']
 		];
 	}
 
@@ -219,7 +220,9 @@ class GallicaDownloaderService
 	{
 		$directory = $this->repertoireDownload . '/' . $resourceId;
 
+        $startTime = microtime(true);
 		$image = file_get_contents( $imageUrl );
+        $downloadTime = microtime(true) - $startTime;
 		if ( $image === false ) {
 			return [ 'error' => 'Erreur en lisant ' . $imageUrl ];
 		}
@@ -235,7 +238,8 @@ class GallicaDownloaderService
 
 		return [
 			'filename' => $filename,
-			'filesize' => filesize( $fullFilename )
+			'filesize' => filesize( $fullFilename ),
+            'time'     => $downloadTime
 		];
 	}
 
